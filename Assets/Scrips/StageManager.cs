@@ -43,8 +43,7 @@ public class StageManager : MonoBehaviour
 
     [Header("스테이지 오프닝 요소들 모음")]
 
-    [SerializeField]
-    private GameObject playerObj;
+    public GameObject playerObj;
 
     [TextArea]
     [SerializeField]
@@ -66,7 +65,30 @@ public class StageManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(StageStart());
+        //StartCoroutine(StageStart());
+        StartCoroutine(TestStart());
+    }
+
+    IEnumerator TestStart()
+    {
+        Vector3 vector = Vector3.zero;
+
+        vector.z = 10f;
+
+        curStageIndex = 1;
+
+        while (playerObj.transform.position.z < 0f)
+        {
+            playerObj.transform.Translate(vector * Time.deltaTime);
+
+            yield return null;
+        }
+
+        playerObj.transform.position = Vector3.zero;
+
+        curGameState = GameState.Playing;
+
+        es.EnemySpawnStart(curStageIndex);
     }
 
     /// <summary>

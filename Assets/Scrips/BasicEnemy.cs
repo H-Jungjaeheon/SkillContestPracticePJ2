@@ -25,13 +25,12 @@ public class BasicEnemy : BasicUnit
 
     private void Start()
     {
-        StartCoroutine(IdleAnim());
+        StartCoroutine(BasicAnim());
         StartCoroutine(Move());
-        StartCoroutine(Shoot());
         Destroy(gameObject, destoryTime);
     }
 
-    IEnumerator IdleAnim()
+    IEnumerator BasicAnim()
     {
         Vector3 openPos = new Vector3(1.25f, 0f, 0f);
         Vector3 closePos = new Vector3(0.75f , 0f, 0f);
@@ -43,10 +42,18 @@ public class BasicEnemy : BasicUnit
 
         while (true)
         {
+            if (hp <= 0)
+            {
+                break;
+            }
+
             if (curAnimTime >= maxAnimTime)
             {
                 curAnimTime = 0f;
+
                 isClosing = !isClosing;
+
+                StartCoroutine(Shoot());
             }
 
             bodyObjs[0].transform.position = Vector3.Lerp(bodyObjs[0].transform.position, isClosing ? transform.position + -closePos : transform.position + -openPos, 0.025f);
@@ -66,6 +73,11 @@ public class BasicEnemy : BasicUnit
 
         while (true)
         {
+            if (hp <= 0)
+            {
+                break;
+            }
+
             transform.Translate(moveVector * Time.deltaTime);
 
             yield return null;
@@ -74,25 +86,29 @@ public class BasicEnemy : BasicUnit
 
     protected override IEnumerator Shoot()
     {
-        float shootDelay = 0f;
-        float maxShootDelay = 3f;
+        int randIndex = Random.Range(0, 2);
 
-        while (true)
+        if (randIndex == 0)
         {
-            if (shootDelay >= maxShootDelay)
+            for (int i = 0; i < 360; i += 40)
             {
-                for (float i = 0; i < 360f; i += 40f)
-                {
-                    Instantiate(bullet, transform.position, Quaternion.Euler(0f, i, 0f));
-                }
-
-                shootDelay = 0;
+                Instantiate(bullet, transform.position, Quaternion.Euler(0f, i, 0f));
             }
-
-            shootDelay += Time.deltaTime;
-
-            yield return null;
         }
+        else
+        {
+            Vector3 distance = StageManager.instance.playerObj.transform.position - transform.position;
+
+            float plusAngle = -20f;
+
+            for (int i = 0; i < 3; i ++)
+            {
+                Instantiate(bullet, transform.position, Quaternion.Euler(0f, Mathf.Atan2(distance.x, distance.z) * Mathf.Rad2Deg + 180f + plusAngle, 0f));
+                plusAngle += 20;
+            }
+        }
+
+        yield return null;
     }
 
     protected override IEnumerator Dead()
@@ -102,6 +118,8 @@ public class BasicEnemy : BasicUnit
         smokeParticle.SetActive(true);
 
         rigid.useGravity = true;
+
+        Instantiate(deadParticle, transform.position, Quaternion.identity);
 
         while (curRotation < 20f)
         {

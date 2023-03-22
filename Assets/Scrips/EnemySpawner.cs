@@ -10,9 +10,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private GameObject[] enemys;
 
-    WaitForSeconds threeSec = new WaitForSeconds(3f);
-
     WaitForSeconds fourSec = new WaitForSeconds(4f);
+
+    WaitForSeconds fiveSec = new WaitForSeconds(5f);
 
     public void EnemySpawnStart(int curStage)
     {
@@ -34,19 +34,19 @@ public class EnemySpawner : MonoBehaviour
     {
         Instantiate(enemys[0], spawnPoses[3], Quaternion.identity);
         
-        yield return fourSec;
+        yield return fiveSec;
 
         for (int i = 1; i < 5; i += 4)
         {
             Instantiate(enemys[0], spawnPoses[i], Quaternion.identity);
         }
 
+        yield return fiveSec;
+
+        Instantiate(enemys[0], spawnPoses[4], Quaternion.identity);
+
         yield return fourSec;
 
-        Instantiate(enemys[0], spawnPoses[0], Quaternion.identity);
-
-        yield return threeSec;
-
-        Instantiate(enemys[0], spawnPoses[1], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[5], Quaternion.identity);
     }
 }

@@ -72,7 +72,6 @@ public class Player : BasicUnit
 
             if (stageManager.curGameState == GameState.Playing)
             {
-
                 if (Input.GetKey(KeyCode.Z) && curShootDelay >= maxShootDelay)
                 {
                     switch (power)
@@ -95,21 +94,22 @@ public class Player : BasicUnit
 
                             for (int curindex = 0; curindex < 2; curindex++)
                             {
-                                Instantiate(bullet, transform.position, Quaternion.Euler(90f, 0f, -20f + curindex * 15f));
+                                Instantiate(bullet, transform.position, Quaternion.Euler(0f, 0f, -20f + curindex * 15f));
                             }
 
                             for (int curindex = 0; curindex < 2; curindex++)
                             {
-                                Instantiate(bullet, transform.position, Quaternion.Euler(90f, 0f, 5f + curindex * 15f));
+                                Instantiate(bullet, transform.position, Quaternion.Euler(0f, 0f, 5f + curindex * 15f));
                             }
 
                             break;
                     }
+
                     curShootDelay = 0f;
+
                 }
 
                 curShootDelay += Time.deltaTime;
-
             }
 
             yield return null;

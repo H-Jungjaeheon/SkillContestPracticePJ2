@@ -37,13 +37,15 @@ public abstract class BasicUnit : MonoBehaviour
 
     public virtual void Hit(float dmg)
     {
-        hp -= dmg;
-
-        StartCoroutine(HitEffect());
-
         if (hp <= 0)
         {
             StartCoroutine(Dead());
+        }
+        else
+        {
+            hp -= dmg;
+
+            StartCoroutine(HitEffect());
         }
     } 
 

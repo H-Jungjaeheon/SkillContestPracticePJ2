@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f2149ae2eed3345af71d4e725609ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
-  destoryTime: 10
+  speed: 50
+  destoryTime: 5
   damage: 1
   targetTag: Enemy
 --- !u!54 &8035216926505827945
