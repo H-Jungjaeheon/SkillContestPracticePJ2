@@ -7,6 +7,12 @@ public enum State
     Dead
 }
 
+public enum MaterialKind
+{
+    Basic,
+    Hit
+}
+
 public abstract class BasicUnit : MonoBehaviour
 {
     [SerializeField]
@@ -16,12 +22,19 @@ public abstract class BasicUnit : MonoBehaviour
     protected float hp;
 
     [SerializeField]
-    protected float damage;
-
-    [SerializeField]
     protected float speed;
 
-    protected State curState;
+    protected Vector3 moveVector = Vector3.zero;
+
+    public State curState;
+
+    [SerializeField]
+    protected MeshRenderer[] mrs;
+
+    [SerializeField]
+    protected Material[] materials;
+
+    protected WaitForSeconds hitEffectDelay = new WaitForSeconds(0.05f);
 
     protected abstract IEnumerator Move();
 
@@ -29,5 +42,30 @@ public abstract class BasicUnit : MonoBehaviour
 
     protected abstract IEnumerator Dead();
 
-    protected abstract IEnumerator Hit();
+    public virtual IEnumerator Hit(int damage)
+    {
+        if (curState == State.Basic)
+        {
+            hp -= damage;
+
+            if (hp <= 0)
+            {
+                StartCoroutine(Dead());
+            }
+            else
+            {
+                for (int i = 0; i < mrs.Length; i++)
+                {
+                    mrs[i].material = materials[(int)MaterialKind.Hit];
+                }
+
+                yield return hitEffectDelay;
+
+                for (int i = 0; i < mrs.Length; i++)
+                {
+                    mrs[i].material = materials[(int)MaterialKind.Basic];
+                }
+            }
+        }
+    }
 }
