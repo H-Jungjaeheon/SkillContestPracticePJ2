@@ -10,15 +10,52 @@ public class Boss : BasicUnit
     [SerializeField]
     private GameObject bullet;
 
+    private StageManager sm; 
+
     private int randIndex;
 
     WaitForSeconds delay = new WaitForSeconds(0.8f);
 
     private void Start()
     {
+        sm = StageManager.instance;
+
         moveVector.z = -1f;
 
+        sm.StartCoroutine(sm.BossStartUIAnim("낙원으로 가는 길목의 수호자"));
+
         StartCoroutine(Move());
+    }
+
+    public override IEnumerator Hit(int damage)
+    {
+        if (curState == State.Basic)
+        {
+            hp -= damage;
+
+            sm.bossHpBar.fillAmount = hp / maxHp;
+
+            if (hp <= 0)
+            {
+                curState = State.Dead;
+
+                StartCoroutine(Dead());
+            }
+            else
+            {
+                for (int i = 0; i < mrs.Length; i++)
+                {
+                    mrs[i].material = materials[(int)MaterialKind.Hit];
+                }
+
+                yield return hitEffectDelay;
+
+                for (int i = 0; i < mrs.Length; i++)
+                {
+                    mrs[i].material = materials[(int)MaterialKind.Basic];
+                }
+            }
+        }
     }
 
     protected override IEnumerator Attack()
@@ -78,7 +115,7 @@ public class Boss : BasicUnit
 
     private IEnumerator SecondPatton()
     {
-        WaitForSeconds shootDelay = new WaitForSeconds(0.25f);
+        WaitForSeconds shootDelay = new WaitForSeconds(0.15f);
 
         float plusIndex = 0f;
 
@@ -99,7 +136,7 @@ public class Boss : BasicUnit
 
     private IEnumerator ThirdPatton()
     {
-        WaitForSeconds shootDelay = new WaitForSeconds(0.1f);
+        WaitForSeconds shootDelay = new WaitForSeconds(0.05f);
 
         float curAngle;
 
@@ -145,6 +182,7 @@ public class Boss : BasicUnit
         {
             if (transform.position.z <= 18f)
             {
+                sm.curState = GameState.Play;
                 StartCoroutine(Attack());
                 break;
             }

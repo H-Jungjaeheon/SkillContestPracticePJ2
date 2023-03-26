@@ -6,7 +6,10 @@ public class CamShake : MonoBehaviour
 {
     public static CamShake instance;
 
-    private Vector3 startPos;
+    [SerializeField]
+    private GameObject playerObj;
+
+    private Vector3 plusVec;
 
     private Vector3 shakePos;
 
@@ -14,7 +17,7 @@ public class CamShake : MonoBehaviour
 
     private float curShakeCount;
 
-    private WaitForSeconds shakeDelay = new WaitForSeconds(0.02f);
+    private WaitForSeconds shakeDelay = new WaitForSeconds(0.03f);
 
     private void Awake()
     {
@@ -26,10 +29,10 @@ public class CamShake : MonoBehaviour
 
     void Start()
     {
-        startPos = transform.position;
+        plusVec = new Vector3(0f, 17f, -2f);
     }
 
-    public void StartShake(int count, int amount)
+    public void StartShake(int count, float amount)
     {
         if (curShake != null)
         {
@@ -40,13 +43,13 @@ public class CamShake : MonoBehaviour
         StartCoroutine(curShake);
     }
 
-    private IEnumerator CamShakeEffect(int count, int amount)
+    private IEnumerator CamShakeEffect(int count, float amount)
     {
         curShakeCount = 0;
 
         while (curShakeCount < count)
         {
-            transform.position = startPos;
+            transform.position = playerObj.transform.position + plusVec;
 
             shakePos.x = transform.position.x + Random.Range(-amount, amount);
             shakePos.y = transform.position.y + Random.Range(0, amount);
@@ -59,6 +62,6 @@ public class CamShake : MonoBehaviour
             curShakeCount++;
         }
 
-        transform.position = startPos;
+        transform.position = playerObj.transform.position + plusVec;
     }
 }

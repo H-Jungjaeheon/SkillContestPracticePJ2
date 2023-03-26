@@ -31,9 +31,14 @@ public class Player : BasicUnit
     private Text hpText;
 
     [SerializeField]
+    private Image hitEffectImage;
+
+    [SerializeField]
     private CamShake cs;
 
-    WaitForSeconds shootDelay = new WaitForSeconds(0.25f);
+    Color color;
+
+    WaitForSeconds shootDelay = new WaitForSeconds(0.15f);
 
     private void Awake()
     {
@@ -115,7 +120,7 @@ public class Player : BasicUnit
 
     protected override IEnumerator Dead()
     {
-        throw new System.NotImplementedException();
+        yield return null;
     }
 
     public override IEnumerator Hit(int damage)
@@ -128,10 +133,14 @@ public class Player : BasicUnit
 
             hpText.text = $"{hp}/{maxHp}";
 
-            cs.StartShake(6, 4);
+            cs.StartShake(6, 3f);
+
+            StartCoroutine(HitEffect());
 
             if (hp <= 0f)
             {
+                curState = State.Dead;
+
                 hp = 0f;
 
                 hpText.text = $"{hp}/{maxHp}";
@@ -153,6 +162,18 @@ public class Player : BasicUnit
                 }
             }
 
+        }
+    }
+
+    private IEnumerator HitEffect()
+    {
+        color = Color.red;
+
+        while (color.a > 0f)
+        {
+            color.a -= Time.deltaTime * 6f;
+            hitEffectImage.color = color;
+            yield return null;
         }
     }
 }

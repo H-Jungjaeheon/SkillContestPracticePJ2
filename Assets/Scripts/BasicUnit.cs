@@ -50,6 +50,8 @@ public abstract class BasicUnit : MonoBehaviour
 
             if (hp <= 0)
             {
+                curState = State.Dead;
+
                 StartCoroutine(Dead());
             }
             else
