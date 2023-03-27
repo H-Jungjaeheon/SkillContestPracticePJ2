@@ -12,6 +12,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private Vector3[] spawnPoses;
 
+    WaitForSeconds seven = new WaitForSeconds(7f);
+
+    WaitForSeconds ten = new WaitForSeconds(10f);
+
     public void StartSpawn(int curStageIndex)
     {
         switch (curStageIndex)
@@ -28,9 +32,32 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private IEnumerator Stage1Spawn()
+    private IEnumerator Stage1Spawn() //0 1 2 3 4 5 6
     {
-        yield return null;
+        Instantiate(enemys[0], spawnPoses[3], Quaternion.identity);
+        yield return seven;
+        Instantiate(enemys[0], spawnPoses[1], Quaternion.identity);
+        yield return seven;
+        Instantiate(enemys[0], spawnPoses[4], Quaternion.identity);
+        yield return ten;
+        Instantiate(enemys[0], spawnPoses[6], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[0], Quaternion.identity);
+        yield return ten;
+        Instantiate(enemys[1], spawnPoses[2], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[4], Quaternion.identity);
+        yield return ten;
+        Instantiate(enemys[1], spawnPoses[1], Quaternion.identity);
+        Instantiate(enemys[1], spawnPoses[5], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[3], Quaternion.identity);
+        yield return ten;
+        Instantiate(enemys[0], spawnPoses[0], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[3], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[6], Quaternion.identity);
+        yield return ten;
+        Instantiate(enemys[1], spawnPoses[2], Quaternion.identity);
+        Instantiate(enemys[1], spawnPoses[4], Quaternion.identity);
+        yield return ten;
+        StageManager.instance.StartCoroutine(StageManager.instance.BossStartUIAnim("낙원으로 가는 길목의 수호자"));
     }
 
     private IEnumerator Stage2Spawn()
@@ -43,8 +70,8 @@ public class EnemySpawner : MonoBehaviour
         yield return null;
     }
 
-    private void SpawnBoss()
+    public void SpawnBoss(int curBossIndex)
     {
-        Instantiate(bosses[StageManager.instance.curStage - 1], spawnPoses[3], Quaternion.identity);
+        Instantiate(bosses[curBossIndex], spawnPoses[3], Quaternion.identity);
     }
 }

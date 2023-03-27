@@ -32,11 +32,18 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private string[] stageOpStrings;
 
+    [TextArea]
+    [SerializeField]
+    private string[] stageOpStrings2;
+
     [SerializeField]
     private Image stageOpImg;
 
     [SerializeField]
-    private Text stageOpText;
+    private Text[] stageOpTexts;
+
+    [SerializeField]
+    private GameObject warningObj;
 
     [SerializeField]
     private GameObject bossHpUiObj;
@@ -70,10 +77,10 @@ public class StageManager : MonoBehaviour
     {
         Color imgColor = Color.black;
         Color textColor = Color.yellow;
+        Color textColor2 = Color.white;
 
-        stageOpText.text = stageOpStrings[curStage - 1];
-        stageOpText.color = textColor;
-        stageOpImg.color = imgColor;
+        stageOpTexts[0].text = stageOpStrings[curStage - 1];
+        stageOpTexts[1].text = stageOpStrings2[curStage - 1];
 
         stageOpObj.SetActive(true);
 
@@ -81,11 +88,13 @@ public class StageManager : MonoBehaviour
 
         while (imgColor.a > 0f)
         {
+            stageOpTexts[0].color = textColor;
+            stageOpTexts[1].color = textColor2;
+            stageOpImg.color = imgColor;
+
             imgColor.a -= Time.deltaTime;
             textColor.a -= Time.deltaTime;
-
-            stageOpText.color = textColor;
-            stageOpImg.color = imgColor;
+            textColor2.a -= Time.deltaTime;
 
             yield return null;
         }
@@ -104,11 +113,29 @@ public class StageManager : MonoBehaviour
 
     public IEnumerator BossStartUIAnim(string bossName)
     {
+        WaitForSeconds warningDelay = new WaitForSeconds(0.75f);
+
         float curFillAmount = 0f;
+        int warningCount = 0;
+
+        while (warningCount < 4)
+        {
+            warningObj.SetActive(true);
+
+            yield return warningDelay;
+
+            warningObj.SetActive(false);
+
+            yield return warningDelay;
+
+            warningCount++;
+        }
 
         bossNameText.text = bossName;
 
         bossHpUiObj.SetActive(true);
+
+        es.SpawnBoss(curStage - 1);
 
         while (curFillAmount < 1f)
         {

@@ -14,6 +14,8 @@ public class Boss : BasicUnit
 
     private int randIndex;
 
+    private bool isStartMoving = true;
+
     WaitForSeconds delay = new WaitForSeconds(0.8f);
 
     private void Start()
@@ -22,14 +24,12 @@ public class Boss : BasicUnit
 
         moveVector.z = -1f;
 
-        sm.StartCoroutine(sm.BossStartUIAnim("낙원으로 가는 길목의 수호자"));
-
         StartCoroutine(Move());
     }
 
     public override IEnumerator Hit(int damage)
     {
-        if (curState == State.Basic)
+        if (curState == State.Basic && isStartMoving == false)
         {
             hp -= damage;
 
@@ -182,6 +182,7 @@ public class Boss : BasicUnit
         {
             if (transform.position.z <= 18f)
             {
+                isStartMoving = false;
                 sm.curState = GameState.Play;
                 StartCoroutine(Attack());
                 break;
