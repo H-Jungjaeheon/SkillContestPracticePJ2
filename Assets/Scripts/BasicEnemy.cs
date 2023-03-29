@@ -21,7 +21,7 @@ public class BasicEnemy : BasicUnit
 
     private void Start()
     {
-        moveVector.z = -1f;
+        moveVector.y = -1f;
 
         StartCoroutine(Move());
         

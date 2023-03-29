@@ -12,6 +12,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private Vector3[] spawnPoses;
 
+    Quaternion basicRotation = Quaternion.Euler(90f, 0f, 0f);
+
     WaitForSeconds seven = new WaitForSeconds(7f);
 
     WaitForSeconds ten = new WaitForSeconds(10f);
@@ -34,28 +36,28 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator Stage1Spawn() //0 1 2 3 4 5 6
     {
-        Instantiate(enemys[0], spawnPoses[3], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[3], basicRotation);
         yield return seven;
-        Instantiate(enemys[0], spawnPoses[1], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[1], basicRotation);
         yield return seven;
-        Instantiate(enemys[0], spawnPoses[4], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[4], basicRotation);
         yield return ten;
-        Instantiate(enemys[0], spawnPoses[6], Quaternion.identity);
-        Instantiate(enemys[0], spawnPoses[0], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[6], basicRotation);
+        Instantiate(enemys[0], spawnPoses[0], basicRotation);
         yield return ten;
-        Instantiate(enemys[1], spawnPoses[2], Quaternion.identity);
-        Instantiate(enemys[0], spawnPoses[4], Quaternion.identity);
+        Instantiate(enemys[1], spawnPoses[2], basicRotation);
+        Instantiate(enemys[0], spawnPoses[4], basicRotation);
         yield return ten;
-        Instantiate(enemys[1], spawnPoses[1], Quaternion.identity);
-        Instantiate(enemys[1], spawnPoses[5], Quaternion.identity);
-        Instantiate(enemys[0], spawnPoses[3], Quaternion.identity);
+        Instantiate(enemys[1], spawnPoses[1], basicRotation);
+        Instantiate(enemys[1], spawnPoses[5], basicRotation);
+        Instantiate(enemys[0], spawnPoses[3], basicRotation);
         yield return ten;
-        Instantiate(enemys[0], spawnPoses[0], Quaternion.identity);
-        Instantiate(enemys[0], spawnPoses[3], Quaternion.identity);
-        Instantiate(enemys[0], spawnPoses[6], Quaternion.identity);
+        Instantiate(enemys[0], spawnPoses[0], basicRotation);
+        Instantiate(enemys[0], spawnPoses[3], basicRotation);
+        Instantiate(enemys[0], spawnPoses[6], basicRotation);
         yield return ten;
-        Instantiate(enemys[1], spawnPoses[2], Quaternion.identity);
-        Instantiate(enemys[1], spawnPoses[4], Quaternion.identity);
+        Instantiate(enemys[1], spawnPoses[2], basicRotation);
+        Instantiate(enemys[1], spawnPoses[4], basicRotation);
         yield return ten;
         StageManager.instance.StartCoroutine(StageManager.instance.BossStartUIAnim("낙원으로 가는 길목의 수호자"));
     }

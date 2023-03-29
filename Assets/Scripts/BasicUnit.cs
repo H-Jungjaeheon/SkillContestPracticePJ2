@@ -7,12 +7,6 @@ public enum State
     Dead
 }
 
-public enum MaterialKind
-{
-    Basic,
-    Hit
-}
-
 public abstract class BasicUnit : MonoBehaviour
 {
     [SerializeField]
@@ -29,10 +23,7 @@ public abstract class BasicUnit : MonoBehaviour
     public State curState;
 
     [SerializeField]
-    protected MeshRenderer[] mrs;
-
-    [SerializeField]
-    protected Material[] materials;
+    protected SpriteRenderer sr;
 
     protected WaitForSeconds hitEffectDelay = new WaitForSeconds(0.05f);
 
@@ -56,17 +47,11 @@ public abstract class BasicUnit : MonoBehaviour
             }
             else
             {
-                for (int i = 0; i < mrs.Length; i++)
-                {
-                    mrs[i].material = materials[(int)MaterialKind.Hit];
-                }
+                sr.color = Color.red;
 
                 yield return hitEffectDelay;
 
-                for (int i = 0; i < mrs.Length; i++)
-                {
-                    mrs[i].material = materials[(int)MaterialKind.Basic];
-                }
+                sr.color = Color.white;
             }
         }
     }

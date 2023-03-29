@@ -149,17 +149,11 @@ public class Player : BasicUnit
             }
             else
             {
-                for (int i = 0; i < mrs.Length; i++)
-                {
-                    mrs[i].material = materials[(int)MaterialKind.Hit];
-                }
+                sr.color = Color.red;
 
                 yield return hitEffectDelay;
 
-                for (int i = 0; i < mrs.Length; i++)
-                {
-                    mrs[i].material = materials[(int)MaterialKind.Basic];
-                }
+                sr.color = Color.white;
             }
 
         }
