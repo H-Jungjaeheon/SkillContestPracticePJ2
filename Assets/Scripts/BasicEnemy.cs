@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum EnemyKind
 {
@@ -19,15 +20,43 @@ public class BasicEnemy : BasicUnit
     [SerializeField]
     private GameObject bullet;
 
+    [SerializeField]
+    private Image hpBarImg;
+
     private void Start()
     {
-        moveVector.y = -1f;
+        moveVector.z = -1f;
 
         StartCoroutine(Move());
         
         if (enemyKind == EnemyKind.BasicEnemy)
         {
             StartCoroutine(Attack());
+        }
+    }
+
+    public override IEnumerator Hit(int damage)
+    {
+        if (curState == State.Basic)
+        {
+            hp -= damage;
+
+            hpBarImg.fillAmount = hp / maxHp;
+
+            if (hp <= 0)
+            {
+                curState = State.Dead;
+
+                StartCoroutine(Dead());
+            }
+            else
+            {
+                sr.color = Color.red;
+
+                yield return hitEffectDelay;
+
+                sr.color = Color.white;
+            }
         }
     }
 
@@ -45,7 +74,7 @@ public class BasicEnemy : BasicUnit
 
                 for (int i = 0; i < 360; i += 30)
                 {
-                    Instantiate(bullet, transform.position, Quaternion.Euler(90f, i, 0f));
+                    Instantiate(bullet, transform.position, Quaternion.Euler(0f, i, 0f));
                 }
             }
         }
@@ -67,7 +96,7 @@ public class BasicEnemy : BasicUnit
                 
                 for (int i = 0; i < 3; i ++)
                 {
-                    Instantiate(bullet, transform.position, Quaternion.Euler(90f, targetZ + 180 + plusZ, 0f));
+                    Instantiate(bullet, transform.position, Quaternion.Euler(0f, targetZ + 180 + plusZ, 0f));
 
                     plusZ += 15;
                 }
@@ -90,7 +119,7 @@ public class BasicEnemy : BasicUnit
     {
         while (curState == State.Basic)
         {
-            if (enemyKind == EnemyKind.ShotGunEnemy && transform.position.z <= 15f)
+            if (enemyKind == EnemyKind.ShotGunEnemy && transform.position.z <= 14f)
             {
                 StartCoroutine(Attack());
 

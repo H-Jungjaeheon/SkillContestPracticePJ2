@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        moveVec.y = 1f;
+        moveVec.z = 1f;
         StartCoroutine(DestroyBullet());
     }
 

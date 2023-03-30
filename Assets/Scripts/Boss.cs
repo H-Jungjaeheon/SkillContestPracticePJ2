@@ -83,20 +83,20 @@ public class Boss : BasicUnit
         float targetZ;
         float curSpeed = -10f;
 
-        int plusZ;
+        int plusY;
         
         for (int j = 0; j < 4; j++)
         {
-            plusZ = -30;
+            plusY = -30;
 
             targetZ = Mathf.Atan2((player.transform.position - transform.position).x, (player.transform.position - transform.position).z) * Mathf.Rad2Deg;
 
             for (int i = 0; i < 5; i++)
             {
-                curBullet = Instantiate(bullet, transform.position, Quaternion.Euler(90f, targetZ + 180 + plusZ, 0f));
+                curBullet = Instantiate(bullet, transform.position, Quaternion.Euler(0f, targetZ + 180f + plusY, 0f));
                 curBullet.GetComponent<BossBullet>().SetSpeed(curSpeed);
 
-                plusZ += 15;
+                plusY += 15;
             }
 
             curSpeed += 2f;
@@ -119,7 +119,7 @@ public class Boss : BasicUnit
 
             for (int i = 0; i < 360; i += 30)
             {
-                Instantiate(bullet, transform.position, Quaternion.Euler(90f, i + plusIndex, 0f));
+                Instantiate(bullet, transform.position, Quaternion.Euler(0f, i + plusIndex, 0f));
             }
 
             plusIndex += 7.5f;
@@ -139,7 +139,7 @@ public class Boss : BasicUnit
             curAngle = -30f;
             for (int i = 0; i < 7; i++)
             {
-                Instantiate(bullet, transform.position, Quaternion.Euler(90f, curAngle, 0f));
+                Instantiate(bullet, transform.position, Quaternion.Euler(0f, curAngle, 0f));
 
                 curAngle += 10;
 
@@ -148,7 +148,7 @@ public class Boss : BasicUnit
 
             for (int i = 0; i < 4; i++)
             {
-                Instantiate(bullet, transform.position, Quaternion.Euler(90f, curAngle, 0f));
+                Instantiate(bullet, transform.position, Quaternion.Euler(0f, curAngle, 0f));
 
                 curAngle -= 15;
 

@@ -69,20 +69,23 @@ public class Player : BasicUnit
 
     protected override IEnumerator Move()
     {
-        string horizontal = "Horizontal";
-        string vertical = "Vertical";
+        Vector3 localPos;
+
+        localPos.y = transform.position.y;
 
         while (true)
         {
             if (sm.curState == GameState.Play && curState == State.Basic)
             {
-                moveVector.x = (transform.position.x + Input.GetAxisRaw(horizontal) * Time.deltaTime * speed > maxMoveX || transform.position.x + Input.GetAxisRaw(horizontal) * Time.deltaTime * speed < -maxMoveX)
-                   ? 0f : Input.GetAxisRaw(horizontal);
-
-                moveVector.z = (transform.position.z + Input.GetAxisRaw(vertical) * Time.deltaTime * speed > maxMoveZ || transform.position.z + Input.GetAxisRaw(vertical) * Time.deltaTime * speed < minMoveZ)
-                    ? 0f : Input.GetAxisRaw(vertical);
+                moveVector.x = Input.GetAxisRaw("Horizontal");
+                moveVector.z = Input.GetAxisRaw("Vertical");
 
                 transform.Translate(moveVector * Time.deltaTime * speed);
+
+                localPos.x = Mathf.Clamp(transform.position.x, -maxMoveX, maxMoveX);
+                localPos.z = Mathf.Clamp(transform.position.z, minMoveZ, maxMoveZ);
+
+                transform.position = localPos;
             }
 
             yield return null;
@@ -100,13 +103,13 @@ public class Player : BasicUnit
                     switch (power)
                     {
                         case 0:
-                            Instantiate(bullet, transform.position, Quaternion.Euler(90f, 0f, 0f));
+                            Instantiate(bullet, transform.position, Quaternion.identity);
                             break;
                         case 1:
-                            Instantiate(bullet, transform.position, Quaternion.Euler(90f, 0f, 0f));
+                            Instantiate(bullet, transform.position, Quaternion.identity);
                             break;
                         case 2:
-                            Instantiate(bullet, transform.position, Quaternion.Euler(90f, 0f, 0f));
+                            Instantiate(bullet, transform.position, Quaternion.identity);
                             break;
                     }
 
