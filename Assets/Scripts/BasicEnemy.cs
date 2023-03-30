@@ -108,7 +108,7 @@ public class BasicEnemy : BasicUnit
     {
         curState = State.Dead;
 
-        StageManager.instance.ScoreUpdate(score);
+        GameManager.instance.plusScore(score);
 
         Destroy(gameObject);
 

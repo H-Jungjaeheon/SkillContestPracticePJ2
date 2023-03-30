@@ -20,27 +20,15 @@ public class StageManager : MonoBehaviour
 
     private int score;
 
-    [SerializeField]
-    private Text scoreText;
+    public Text scoreText;
 
     public Player player;
 
     [SerializeField]
     private GameObject stageOpObj;
 
-    [TextArea]
-    [SerializeField]
-    private string[] stageOpStrings;
-
-    [TextArea]
-    [SerializeField]
-    private string[] stageOpStrings2;
-
     [SerializeField]
     private Image stageOpImg;
-
-    [SerializeField]
-    private Text[] stageOpTexts;
 
     [SerializeField]
     private GameObject warningObj;
@@ -62,10 +50,6 @@ public class StageManager : MonoBehaviour
         {
             instance = this;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void Start()
@@ -76,25 +60,16 @@ public class StageManager : MonoBehaviour
     public IEnumerator StageOp()
     {
         Color imgColor = Color.black;
-        Color textColor = Color.yellow;
-        Color textColor2 = Color.white;
-
-        stageOpTexts[0].text = stageOpStrings[curStage - 1];
-        stageOpTexts[1].text = stageOpStrings2[curStage - 1];
 
         stageOpObj.SetActive(true);
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3f);
 
         while (imgColor.a > 0f)
         {
-            stageOpTexts[0].color = textColor;
-            stageOpTexts[1].color = textColor2;
             stageOpImg.color = imgColor;
 
             imgColor.a -= Time.deltaTime;
-            textColor.a -= Time.deltaTime;
-            textColor2.a -= Time.deltaTime;
 
             yield return null;
         }
@@ -102,13 +77,6 @@ public class StageManager : MonoBehaviour
         stageOpObj.SetActive(false);
 
         es.StartSpawn(curStage);
-    }
-
-    public void ScoreUpdate(int plusScore)
-    {
-        score += plusScore;
-
-        scoreText.text = $"{score} Á¡";
     }
 
     public IEnumerator BossStartUIAnim(string bossName)

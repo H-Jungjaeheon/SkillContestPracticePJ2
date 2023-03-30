@@ -10,6 +10,9 @@ public class Boss : BasicUnit
     [SerializeField]
     private GameObject bullet;
 
+    [SerializeField]
+    private SpriteRenderer shoutEffect;
+
     private StageManager sm; 
 
     private int randIndex;
@@ -163,7 +166,7 @@ public class Boss : BasicUnit
     {
         curState = State.Dead;
 
-        StageManager.instance.ScoreUpdate(score);
+        GameManager.instance.plusScore(score);
 
         Destroy(gameObject);
 
@@ -174,11 +177,10 @@ public class Boss : BasicUnit
     {
         while (curState == State.Basic)
         {
-            if (transform.position.z <= 18f)
+            if (transform.position.z <= 14f)
             {
-                isStartMoving = false;
-                sm.curState = GameState.Play;
-                StartCoroutine(Attack());
+                StageManager.instance.StartCoroutine(StageManager.instance.BossStartUIAnim("낙원으로 가는 길목의 수호자"));
+                StartCoroutine(Shout());
                 break;
             }
 
@@ -186,5 +188,42 @@ public class Boss : BasicUnit
 
             yield return null;
         }
+    }
+
+    protected IEnumerator Shout()
+    {
+        Color color;
+
+        Vector3 curScale;
+
+        CamShake.instance.StartShake(90, 1f);
+
+        for (int i = 0; i < 5; i++)
+        {
+            color = Color.white;
+            curScale = Vector3.zero;
+
+            while (true)
+            {
+                shoutEffect.color = color;
+                shoutEffect.transform.localScale = curScale;
+
+                color.a -= Time.deltaTime * 2f;
+
+                curScale.x += Time.deltaTime * 60f;
+                curScale.y += Time.deltaTime * 60f;
+
+                if (color.a <= 0f)
+                {
+                    break;
+                }
+
+                yield return null;
+            }
+        }
+
+        isStartMoving = false;
+        sm.curState = GameState.Play;
+        StartCoroutine(Attack());
     }
 }
