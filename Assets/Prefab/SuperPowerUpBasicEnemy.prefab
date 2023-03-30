@@ -269,6 +269,7 @@ MonoBehaviour:
   sr: {fileID: 2295795548750451745}
   enemyKind: 0
   score: 1100
+  minZ: 10
   bullet: {fileID: 1413207732358304070, guid: e1ca44746b1f20340893b3e7043a557f, type: 3}
   hpBarImg: {fileID: 6503069948532575398}
 --- !u!1 &8586180193406096485

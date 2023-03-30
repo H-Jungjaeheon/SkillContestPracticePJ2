@@ -166,6 +166,8 @@ public class Boss : BasicUnit
     {
         curState = State.Dead;
 
+        StageManager.instance.BossUIOff();
+
         GameManager.instance.plusScore(score);
 
         Destroy(gameObject);
@@ -179,7 +181,7 @@ public class Boss : BasicUnit
         {
             if (transform.position.z <= 14f)
             {
-                StageManager.instance.StartCoroutine(StageManager.instance.BossStartUIAnim("낙원으로 가는 길목의 수호자"));
+                StageManager.instance.StartCoroutine(StageManager.instance.BossStartUIAnim());
                 StartCoroutine(Shout());
                 break;
             }

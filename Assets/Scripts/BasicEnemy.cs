@@ -18,6 +18,9 @@ public class BasicEnemy : BasicUnit
     protected int score;
 
     [SerializeField]
+    protected float minZ;
+
+    [SerializeField]
     private GameObject bullet;
 
     [SerializeField]
@@ -119,9 +122,12 @@ public class BasicEnemy : BasicUnit
     {
         while (curState == State.Basic)
         {
-            if (enemyKind == EnemyKind.ShotGunEnemy && transform.position.z <= 14f)
+            if (transform.position.z <= minZ)
             {
-                StartCoroutine(Attack());
+                if (enemyKind == EnemyKind.ShotGunEnemy)
+                {
+                    StartCoroutine(Attack());
+                }
 
                 break;
             }

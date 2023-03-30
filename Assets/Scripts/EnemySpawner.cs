@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     private GameObject[] enemys;
 
     [SerializeField]
-    private GameObject[] bosses;
+    private GameObject boss;
 
     [SerializeField]
     private Vector3[] spawnPoses;
@@ -57,7 +58,7 @@ public class EnemySpawner : MonoBehaviour
         Instantiate(enemys[1], spawnPoses[2], Quaternion.identity);
         Instantiate(enemys[1], spawnPoses[4], Quaternion.identity);
         yield return ten;
-        StageManager.instance.StartCoroutine(StageManager.instance.BossStartUIAnim("낙원으로 가는 길목의 수호자"));
+        StageManager.instance.StartCoroutine(StageManager.instance.WarningUIAnim()); //"낙원으로 가는 길목의 수호자"
     }
 
     private IEnumerator Stage2Spawn()
@@ -70,8 +71,8 @@ public class EnemySpawner : MonoBehaviour
         yield return null;
     }
 
-    public void SpawnBoss(int curBossIndex)
+    public void SpawnBoss()
     {
-        Instantiate(bosses[curBossIndex], spawnPoses[3], Quaternion.identity);
+        Instantiate(boss, spawnPoses[3], Quaternion.identity);
     }
 }

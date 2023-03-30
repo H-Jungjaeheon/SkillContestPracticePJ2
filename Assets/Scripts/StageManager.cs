@@ -16,19 +16,11 @@ public class StageManager : MonoBehaviour
 
     public GameState curState;
 
-    public int curStage = 1;
-
-    private int score;
+    public int curStage;
 
     public Text scoreText;
 
     public Player player;
-
-    [SerializeField]
-    private GameObject stageOpObj;
-
-    [SerializeField]
-    private Image stageOpImg;
 
     [SerializeField]
     private GameObject warningObj;
@@ -39,7 +31,10 @@ public class StageManager : MonoBehaviour
     public Image bossHpBar;
 
     [SerializeField]
-    private Text bossNameText;
+    private GameObject stageOpObj;
+
+    [SerializeField]
+    private Image stageOpImg;
 
     [SerializeField]
     private EnemySpawner es;
@@ -79,11 +74,10 @@ public class StageManager : MonoBehaviour
         es.StartSpawn(curStage);
     }
 
-    public IEnumerator BossStartUIAnim(string bossName)
+    public IEnumerator WarningUIAnim()
     {
         WaitForSeconds warningDelay = new WaitForSeconds(0.75f);
 
-        float curFillAmount = 0f;
         int warningCount = 0;
 
         while (warningCount < 4)
@@ -99,16 +93,19 @@ public class StageManager : MonoBehaviour
             warningCount++;
         }
 
-        bossNameText.text = bossName;
+        es.SpawnBoss();
+    }
+
+    public IEnumerator BossStartUIAnim()
+    {
+        float curFillAmount = 0f;
 
         bossHpUiObj.SetActive(true);
-
-        es.SpawnBoss(curStage - 1);
 
         while (curFillAmount < 1f)
         {
             bossHpBar.fillAmount = curFillAmount / 1f;
-            curFillAmount += Time.deltaTime / 4f;
+            curFillAmount += Time.deltaTime / 3f;
 
             yield return null;
         }
