@@ -6,7 +6,11 @@ using UnityEngine.UI;
 public enum EnemyKind
 {
     BasicEnemy,
-    ShotGunEnemy
+    ShotGunEnemy,
+    PowerUpBasicEnemy,
+    PowerUpShotGunEnemy,
+    SuperPowerUpBasicEnemy,
+    SuperPowerUpShotGunEnemy
 }
 
 public class BasicEnemy : BasicUnit
@@ -35,7 +39,7 @@ public class BasicEnemy : BasicUnit
 
         StartCoroutine(Move());
         
-        if (enemyKind == EnemyKind.BasicEnemy)
+        if (enemyKind == EnemyKind.BasicEnemy || enemyKind == EnemyKind.PowerUpBasicEnemy || enemyKind == EnemyKind.SuperPowerUpBasicEnemy)
         {
             StartCoroutine(Attack());
         }
@@ -68,15 +72,11 @@ public class BasicEnemy : BasicUnit
 
     protected override IEnumerator Attack()
     {
-        WaitForSeconds shootDelay;
-
         if (enemyKind == EnemyKind.BasicEnemy)
         {
-            shootDelay = new WaitForSeconds(2f);
-
             while (true)
             {
-                yield return shootDelay;
+                yield return new WaitForSeconds(2f);
 
                 for (int i = 0; i < 360; i += 30)
                 {
@@ -90,21 +90,92 @@ public class BasicEnemy : BasicUnit
             float targetZ;
             int plusZ;
 
-            shootDelay = new WaitForSeconds(2f);
-
             while (true)
             {
-                yield return shootDelay;
+                yield return new WaitForSeconds(2f);
 
                 plusZ = -15;
-                
+
                 targetZ = Mathf.Atan2((player.transform.position - transform.position).x, (player.transform.position - transform.position).z) * Mathf.Rad2Deg;
-                
-                for (int i = 0; i < 3; i ++)
+
+                for (int i = 0; i < 3; i++)
                 {
                     Instantiate(bullet, transform.position, Quaternion.Euler(0f, targetZ + 180 + plusZ, 0f));
 
                     plusZ += 15;
+                }
+            }
+        }
+        else if (enemyKind == EnemyKind.PowerUpBasicEnemy)
+        {
+            GameObject curBullet;
+
+            while (true)
+            {
+                yield return new WaitForSeconds(2.5f);
+
+                for (int i = 0; i <= 360; i += 30)
+                {
+                    Instantiate(bullet, transform.position, Quaternion.Euler(0f, i, 0f));
+                }
+
+                yield return new WaitForSeconds(0.5f);
+
+                for (int i = 0; i <= 180; i += 15)
+                {
+                    curBullet = Instantiate(bullet, transform.position, Quaternion.Euler(0f, i, 0f));
+
+                    curBullet.GetComponent<Bullet>().speedSetting(-7.5f);
+                }
+
+                yield return new WaitForSeconds(2.5f);
+
+                for (int i = 0; i <= 360; i += 30)
+                {
+                    Instantiate(bullet, transform.position, Quaternion.Euler(0f, i, 0f));
+                }
+
+                yield return new WaitForSeconds(0.5f);
+
+                for (int i = 0; i >= -180; i -= 15)
+                {
+                    curBullet = Instantiate(bullet, transform.position, Quaternion.Euler(0f, i, 0f));
+
+                    curBullet.GetComponent<Bullet>().speedSetting(-7.5f);
+                }
+            }
+        }
+        else if (enemyKind == EnemyKind.PowerUpShotGunEnemy)
+        {
+            Player player = StageManager.instance.player;
+
+            GameObject curBullet;
+
+            float targetZ;
+            int plusZ;
+
+            while (true)
+            {
+                yield return new WaitForSeconds(2f);
+
+                plusZ = -30;
+
+                targetZ = Mathf.Atan2((player.transform.position - transform.position).x, (player.transform.position - transform.position).z) * Mathf.Rad2Deg;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    curBullet = Instantiate(bullet, transform.position, Quaternion.Euler(0f, targetZ + 180 + plusZ, 0f));
+
+                    curBullet.GetComponent<Bullet>().speedSetting(-13f);
+
+                    plusZ += 15;
+                }
+
+                yield return new WaitForSeconds(0.5f);
+
+                for (int i = 0; i < 360; i += 90)
+                {
+                    Instantiate(bullet, transform.position, Quaternion.Euler(0f, i, 0f));
                 }
             }
         }
@@ -120,7 +191,7 @@ public class BasicEnemy : BasicUnit
 
         Instantiate(deadParticleObj, transform.position, deadParticleObj.transform.rotation);
 
-        CamShake.instance.StartShake(6, 0.75f);
+        CamShake.instance.StartShake(11, 1f);
 
         Destroy(gameObject);
 
@@ -133,7 +204,7 @@ public class BasicEnemy : BasicUnit
         {
             if (transform.position.z <= minZ)
             {
-                if (enemyKind == EnemyKind.ShotGunEnemy)
+                if (enemyKind == EnemyKind.ShotGunEnemy || enemyKind == EnemyKind.PowerUpShotGunEnemy || enemyKind == EnemyKind.SuperPowerUpShotGunEnemy)
                 {
                     StartCoroutine(Attack());
                 }

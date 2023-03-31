@@ -854,8 +854,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9f7b02d41db974a47bbb7bba6d5d043f, type: 2}
+  - {fileID: 2100000, guid: 9f7b02d41db974a47bbb7bba6d5d043f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11010,13 +11010,13 @@ MonoBehaviour:
   - {fileID: 5970347434902469573, guid: 274513ac9cb9106409d8bb34aee93334, type: 3}
   boss: {fileID: 4040830826727090973, guid: 5540776e8708a114e9070d9176a01a6e, type: 3}
   spawnPoses:
-  - {x: -10.5, y: 0, z: 30}
-  - {x: -7, y: 0, z: 30}
-  - {x: -3.5, y: 0, z: 30}
-  - {x: 0, y: 0, z: 30}
-  - {x: 3.5, y: 0, z: 30}
-  - {x: 7, y: 0, z: 30}
-  - {x: 10.5, y: 0, z: 30}
+  - {x: -10.5, y: 0, z: 25}
+  - {x: -7, y: 0, z: 25}
+  - {x: -3.5, y: 0, z: 25}
+  - {x: 0, y: 0, z: 25}
+  - {x: 3.5, y: 0, z: 25}
+  - {x: 7, y: 0, z: 25}
+  - {x: 10.5, y: 0, z: 25}
 --- !u!4 &722137688
 Transform:
   m_ObjectHideFlags: 0
@@ -11235,7 +11235,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824187952}
-  m_LocalRotation: {x: 0.6427876, y: 0, z: 0, w: 0.7660445}
+  m_LocalRotation: {x: 0.6427876, y: -0, z: -0, w: 0.7660445}
   m_LocalPosition: {x: 0, y: 15, z: 1.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11912,7 +11912,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Stage1
+  m_Text: "Stage1\n<size=35>\uB099\uC6D0\uC73C\uB85C \uD5A5\uD558\uB294 \uAE38</size>"
 --- !u!222 &1345794904
 CanvasRenderer:
   m_ObjectHideFlags: 0

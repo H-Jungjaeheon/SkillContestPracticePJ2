@@ -31,6 +31,8 @@ public class Bullet : MonoBehaviour
         Move();
     }
 
+    public void speedSetting(float settingSpeed) => speed = settingSpeed;
+
     private IEnumerator DestroyBullet()
     {
         yield return new WaitForSeconds(destroyTime);

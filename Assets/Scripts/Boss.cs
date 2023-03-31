@@ -11,6 +11,9 @@ public class Boss : BasicUnit
     private GameObject bullet;
 
     [SerializeField]
+    private GameObject bossDeadParitcleObj;
+
+    [SerializeField]
     private SpriteRenderer shoutEffect;
 
     private StageManager sm; 
@@ -20,6 +23,8 @@ public class Boss : BasicUnit
     private bool isStartMoving = true;
 
     WaitForSeconds delay = new WaitForSeconds(0.8f);
+
+    private IEnumerator attackCoroutine;
 
     private void Start()
     {
@@ -41,6 +46,8 @@ public class Boss : BasicUnit
             if (hp <= 0)
             {
                 curState = State.Dead;
+
+                StopCoroutine(attackCoroutine);
 
                 StartCoroutine(Dead());
             }
@@ -64,17 +71,17 @@ public class Boss : BasicUnit
         switch (randIndex)
         {
             case 0:
-                StartCoroutine(FirstPatton());
+                attackCoroutine = FirstPatton();
                 break;
             case 1:
-                StartCoroutine(SecondPatton());
+                attackCoroutine = SecondPatton();
                 break;
             case 2:
-                StartCoroutine(ThirdPatton());
+                attackCoroutine = ThirdPatton();
                 break;
         }
 
-        yield return null;
+        StartCoroutine(attackCoroutine);
     }
 
     private IEnumerator FirstPatton()
@@ -107,7 +114,8 @@ public class Boss : BasicUnit
             yield return shootDelay;
         }
 
-        StartCoroutine(Attack());
+        attackCoroutine = Attack();
+        StartCoroutine(attackCoroutine);
     }
 
     private IEnumerator SecondPatton()
@@ -128,7 +136,8 @@ public class Boss : BasicUnit
             plusIndex += 7.5f;
         }
 
-        StartCoroutine(Attack());
+        attackCoroutine = Attack();
+        StartCoroutine(attackCoroutine);
     }
 
     private IEnumerator ThirdPatton()
@@ -159,7 +168,8 @@ public class Boss : BasicUnit
             }
         }
 
-        StartCoroutine(Attack());
+        attackCoroutine = Attack();
+        StartCoroutine(attackCoroutine);
     }
 
     protected override IEnumerator Dead()
@@ -170,9 +180,11 @@ public class Boss : BasicUnit
 
         GameManager.instance.plusScore(score);
 
-        Destroy(gameObject);
+        bossDeadParitcleObj.SetActive(true);
 
-        yield return null;
+        yield return new WaitForSeconds(5f);
+
+        Destroy(gameObject);
     }
 
     protected override IEnumerator Move()
@@ -226,6 +238,8 @@ public class Boss : BasicUnit
 
         isStartMoving = false;
         sm.curState = GameState.Play;
-        StartCoroutine(Attack());
+
+        attackCoroutine = Attack();
+        StartCoroutine(attackCoroutine);
     }
 }

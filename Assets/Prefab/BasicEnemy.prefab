@@ -338,9 +338,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735faa271cff25142bbda1b068a528fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 15
-  hp: 15
-  speed: 1.5
+  maxHp: 25
+  hp: 25
+  speed: 1.75
   curState: 0
   sr: {fileID: 3004318524299713170}
   enemyKind: 0
