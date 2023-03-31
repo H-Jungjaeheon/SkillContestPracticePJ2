@@ -26,6 +26,9 @@ public class StageManager : MonoBehaviour
     private GameObject warningObj;
 
     [SerializeField]
+    private Image warningBgImg;
+
+    [SerializeField]
     private GameObject bossHpUiObj;
 
     public Image bossHpBar;
@@ -71,27 +74,39 @@ public class StageManager : MonoBehaviour
 
         stageOpObj.SetActive(false);
 
-        es.StartSpawn(curStage);
+        es.StartSpawn();
     }
 
     public IEnumerator WarningUIAnim()
     {
-        WaitForSeconds warningDelay = new WaitForSeconds(0.75f);
+        Color color = Color.red;
 
-        int warningCount = 0;
+        color.a = 0f;
 
-        while (warningCount < 4)
+        warningObj.SetActive(true);
+
+        for (int i = 0; i < 3; i++)
         {
-            warningObj.SetActive(true);
+            while (color.a < 1f)
+            {
+                warningBgImg.color = color;
 
-            yield return warningDelay;
+                color.a += Time.deltaTime;
 
-            warningObj.SetActive(false);
+                yield return null;
+            }
 
-            yield return warningDelay;
+            while (color.a > 0f)
+            {
+                warningBgImg.color = color;
 
-            warningCount++;
+                color.a -= Time.deltaTime;
+
+                yield return null;
+            }
         }
+
+        warningObj.SetActive(false);
 
         es.SpawnBoss();
     }

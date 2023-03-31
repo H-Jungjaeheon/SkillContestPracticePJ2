@@ -166,6 +166,8 @@ public class Player : BasicUnit
     {
         color = Color.red;
 
+        color.a = 0.5f;
+
         while (color.a > 0f)
         {
             color.a -= Time.deltaTime * 6f;

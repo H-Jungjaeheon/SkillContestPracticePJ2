@@ -24,6 +24,9 @@ public class BasicEnemy : BasicUnit
     private GameObject bullet;
 
     [SerializeField]
+    private GameObject deadParticleObj;
+
+    [SerializeField]
     private Image hpBarImg;
 
     private void Start()
@@ -111,7 +114,13 @@ public class BasicEnemy : BasicUnit
     {
         curState = State.Dead;
 
+        EnemySpawner.instance.enemyDeadCount++;
+
         GameManager.instance.plusScore(score);
+
+        Instantiate(deadParticleObj, transform.position, deadParticleObj.transform.rotation);
+
+        CamShake.instance.StartShake(6, 0.75f);
 
         Destroy(gameObject);
 

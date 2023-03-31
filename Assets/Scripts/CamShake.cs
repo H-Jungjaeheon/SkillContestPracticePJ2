@@ -29,7 +29,7 @@ public class CamShake : MonoBehaviour
 
     void Start()
     {
-        plusVec = new Vector3(0f, 15f, -1.7f);
+        plusVec = new Vector3(0f, 15f, 1.7f);
     }
 
     public void StartShake(int count, float amount)
