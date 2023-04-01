@@ -212,7 +212,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5609557243287130750}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 30}
+  m_LocalPosition: {x: 0, y: 0, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -267,7 +267,7 @@ MonoBehaviour:
   speed: 2
   curState: 0
   sr: {fileID: 2295795548750451745}
-  enemyKind: 0
+  enemyKind: 4
   score: 1100
   minZ: 10
   bullet: {fileID: 1413207732358304070, guid: e1ca44746b1f20340893b3e7043a557f, type: 3}

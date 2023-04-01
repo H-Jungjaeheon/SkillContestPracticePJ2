@@ -178,6 +178,8 @@ public class Boss : BasicUnit
 
         StageManager.instance.BossUIOff();
 
+        EnemySpawner.instance.EnemyDeadCount++;
+
         GameManager.instance.plusScore(score);
 
         bossDeadParitcleObj.SetActive(true);

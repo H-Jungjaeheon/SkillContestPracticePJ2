@@ -21,7 +21,23 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private RectTransform waveStartTextRt;
 
-    public int enemyDeadCount;
+    [SerializeField]
+    private Text enemyDeadCountText;
+
+    private int enemyDeadCount;
+
+    public int EnemyDeadCount
+    {
+        get
+        {
+            return enemyDeadCount;
+        }
+        set
+        {
+            enemyDeadCount = value;
+            enemyDeadCountText.text = $"{value}/{maxEnemyDeadCount}";
+        }
+    }
 
     private int maxEnemyDeadCount;
 
@@ -169,6 +185,7 @@ public class EnemySpawner : MonoBehaviour
         wave++;
         waveText.text = $"Wave {wave}";
         waveStartText.text = $"Wave {wave} Start!";
+        enemyDeadCountText.text = $"{0}/{maxEnemyCount}";
 
         StartCoroutine(WaveStartTextAnim());
     }

@@ -20,9 +20,16 @@ public class Bullet : MonoBehaviour
 
     private BasicUnit bu;
 
+    public bool isTest;
+
+    private float a = 0;
+
+    private float b = 0;
+
     private void Start()
     {
         moveVec.z = 1f;
+
         StartCoroutine(DestroyBullet());
     }
 
